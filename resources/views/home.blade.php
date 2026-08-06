@@ -3,22 +3,44 @@
 @section('title', __('site.site_name'))
 
 @section('content')
-    <section class="relative overflow-hidden bg-[linear-gradient(135deg,#142756_0%,#193e8d_55%,#0f6133_100%)] py-24 text-white">
-        <div class="mx-auto max-w-7xl px-4">
-            <h1 class="max-w-3xl text-balance text-4xl font-extrabold leading-tight sm:text-5xl">
-                {{ __('site.hero.title') }}
-            </h1>
-            <p class="mt-6 max-w-2xl text-lg leading-relaxed text-brand-100">
-                {{ __('site.hero.subtitle') }}
-            </p>
-            <div class="mt-8 flex flex-wrap gap-4">
-                <a href="/{{ $locale }}/services" class="rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-900 shadow-lg transition hover:bg-brand-50">
-                    {{ __('site.hero.cta_services') }}
-                </a>
-                <a href="/{{ $locale }}/contact" class="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">
-                    {{ __('site.hero.cta_contact') }}
+    <section
+        id="home-hero"
+        class="relative w-full overflow-hidden bg-slate-900"
+        data-slides="{{ json_encode($heroSlides, JSON_HEX_APOS | JSON_HEX_QUOT) }}"
+        data-locale="{{ $locale }}"
+        data-fallback-href="/{{ $locale }}/news"
+        data-site-name-short="{{ __('site.site_name_short') }}"
+    >
+        <div id="hero-bg-layer" class="absolute inset-0"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(6,16,32,0.82)_0%,rgba(6,16,32,0.52)_42%,rgba(6,16,32,0.18)_100%)]"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(6,16,32,0.78)_0%,rgba(6,16,32,0)_58%)]"></div>
+
+        <div class="relative z-10 mx-auto flex min-h-[500px] max-w-7xl flex-col justify-between px-4 pb-7 pt-[4.5rem] sm:px-6 sm:pt-24 lg:min-h-[640px] lg:px-8 lg:pb-10 lg:pt-32">
+            <div class="max-w-xl">
+                <div class="flex flex-wrap items-center gap-3">
+                    <span id="hero-category" class="rounded bg-brand-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white"></span>
+                    <span id="hero-date" class="text-xs font-medium text-white/75"></span>
+                </div>
+                <h1 class="mt-4 text-2xl font-extrabold leading-[1.12] tracking-tight text-white sm:text-3xl lg:text-[34px]">
+                    <a id="hero-title-link" href="#" class="line-clamp-3 transition hover:text-white/85"></a>
+                </h1>
+                <p id="hero-excerpt" class="mt-4 max-w-lg text-sm leading-relaxed text-white/75 line-clamp-2"></p>
+                <a id="hero-readmore-link" href="#" class="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-white">
+                    <span>{{ __('site.news.read_more') }}</span>
+                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
                 </a>
             </div>
+
+            <div id="hero-thumbs" class="mx-auto mt-12 grid w-full max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-3"></div>
+        </div>
+
+        <div id="hero-arrows" class="absolute right-4 top-1/2 z-20 hidden -translate-y-1/2 flex-col gap-2 lg:flex">
+            <button id="hero-prev" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-slate-950/50 text-white transition hover:bg-slate-950/80" aria-label="Previous slide">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 19l-7-7 7-7"/></svg>
+            </button>
+            <button id="hero-next" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/25 bg-slate-950/50 text-white transition hover:bg-slate-950/80" aria-label="Next slide">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
         </div>
     </section>
 

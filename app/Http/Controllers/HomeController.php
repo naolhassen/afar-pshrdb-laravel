@@ -14,6 +14,26 @@ class HomeController extends Controller
             ->take(6)
             ->get();
 
+        $heroSlides = $latestNews->take(4)->map(fn (NewsArticle $item) => [
+            'imageUrl' => $item->image_url,
+            'title' => $item->localized('title', $locale) ?: __('site.hero.title'),
+            'excerpt' => $item->localized('excerpt', $locale) ?: __('site.hero.subtitle'),
+            'slug' => $item->slug,
+            'category' => $item->localized('category', $locale) ?: null,
+            'date' => $item->date,
+        ])->values();
+
+        if ($heroSlides->isEmpty()) {
+            $heroSlides = collect([[
+                'imageUrl' => null,
+                'title' => __('site.hero.title'),
+                'excerpt' => __('site.hero.subtitle'),
+                'slug' => null,
+                'category' => null,
+                'date' => null,
+            ]]);
+        }
+
         $leaders = collect(config('leaders'))->map(fn (array $leader) => [
             'key' => $leader['key'],
             'name' => $leader['name'][$locale] ?? $leader['name']['en'],
@@ -32,6 +52,7 @@ class HomeController extends Controller
         return view('home', [
             'locale' => $locale,
             'latestNews' => $latestNews,
+            'heroSlides' => $heroSlides,
             'leaders' => $leaders,
             'head' => $head,
             'stats' => $stats,
