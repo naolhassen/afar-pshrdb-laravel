@@ -145,4 +145,8 @@ function initHomeHero() {
     restartTimer();
 }
 
-document.addEventListener('DOMContentLoaded', initHomeHero);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHomeHero);
+} else {
+    initHomeHero();
+}
