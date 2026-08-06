@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasLocalizedFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
+    use HasLocalizedFields;
+
     protected $fillable = [
         'slug',
         'published',
