@@ -1,0 +1,94 @@
+name: Deploy dev to cPanel
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install PHP dependencies
+        run: |
+          composer config --global --no-interaction policy.advisories.block false
+          composer install --no-dev --no-interaction --optimize-autoloader --no-scripts
+
+      - name: Install JS dependencies and build
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+          npm run build
+
+      - name: Prepare deploy zip
+        run: |
+          zip -r deploy.zip . \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x "node_modules/*" \
+            -x "storage/*" \
+            -x "bootstrap/cache/*" \
+            -x ".env" \
+            -x ".env.*" \
+            -x "tests/*" \
+            -x "phpunit.xml*" \
+            -x ".devin/*" \
+            -x ".windsurf/*"
+
+      - name: Upload deploy zip to cPanel
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.CPANEL_SSH_HOST }}
+          username: ${{ secrets.CPANEL_SSH_USER }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
+          port: ${{ secrets.CPANEL_SSH_PORT || '22' }}
+          source: "deploy.zip"
+          target: "/home/${{ secrets.CPANEL_SSH_USER }}/"
+
+      - name: Extract and finish on cPanel
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.CPANEL_SSH_HOST }}
+          username: ${{ secrets.CPANEL_SSH_USER }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
+          port: ${{ secrets.CPANEL_SSH_PORT || '22' }}
+          script: |
+            set -e
+            WEB_ROOT='${{ secrets.CPANEL_DEV_DIR }}'
+            WEB_ROOT="${WEB_ROOT#/}"
+            WEB_ROOT="${WEB_ROOT%/}"
+            [ -z "$WEB_ROOT" ] && WEB_ROOT="public_html"
+            APP_DIR="${WEB_ROOT}_app"
+            mkdir -p /home/${{ secrets.CPANEL_SSH_USER }}/$APP_DIR
+            cd /home/${{ secrets.CPANEL_SSH_USER }}/$APP_DIR
+            unzip -o -q /home/${{ secrets.CPANEL_SSH_USER }}/deploy.zip
+            if [ -f /home/${{ secrets.CPANEL_SSH_USER }}/$WEB_ROOT/.env ]; then
+              cp /home/${{ secrets.CPANEL_SSH_USER }}/$WEB_ROOT/.env /home/${{ secrets.CPANEL_SSH_USER }}/$APP_DIR/.env
+            fi
+            mkdir -p bootstrap/cache
+            mkdir -p storage/framework/cache
+            mkdir -p storage/framework/cache/data
+            mkdir -p storage/framework/sessions
+            mkdir -p storage/framework/views
+            mkdir -p storage/app/public
+            mkdir -p storage/logs
+            chmod -R 775 bootstrap/cache storage
+            php -v
+            php artisan migrate --force
+            php artisan optimize
+            rm -rf /home/${{ secrets.CPANEL_SSH_USER }}/$WEB_ROOT
+            ln -sfn /home/${{ secrets.CPANEL_SSH_USER }}/$APP_DIR/public /home/${{ secrets.CPANEL_SSH_USER }}/$WEB_ROOT
