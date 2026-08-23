@@ -18,8 +18,14 @@
     <div class="bg-[linear-gradient(90deg,#142756_0%,#193e8d_100%)] text-brand-100">
         <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-1.5 text-xs">
             <div class="hidden items-center gap-4 sm:flex">
-                <span>{{ __('site.contact.phone') }}</span>
-                <span>{{ __('site.contact.email') }}</span>
+                <span class="inline-flex items-center gap-1.5">
+                    <i data-lucide="phone" class="h-3 w-3"></i>
+                    {{ __('site.contact.phone') }}
+                </span>
+                <span class="inline-flex items-center gap-1.5">
+                    <i data-lucide="mail" class="h-3 w-3"></i>
+                    {{ __('site.contact.email') }}
+                </span>
             </div>
             <span class="truncate text-brand-200">{{ __('site.region') }}</span>
             <div class="flex items-center gap-2">
@@ -54,10 +60,26 @@
                         {{ $item['label'] }}
                     </a>
                 @endforeach
+
+                {{-- Announcements dropdown --}}
+                <div class="group relative">
+                    <button type="button" class="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold transition {{ request()->is($locale.'/announcements*') ? 'bg-brand-50 text-brand-800' : 'text-slate-700 hover:bg-slate-100 hover:text-brand-900' }}">
+                        {{ __('site.nav.announcements') }}
+                        <i data-lucide="chevron-down" class="h-3.5 w-3.5"></i>
+                    </button>
+                    <div class="absolute left-0 top-full hidden min-w-[16rem] rounded-2xl border border-slate-200 bg-white py-2 shadow-xl group-hover:block">
+                        <a href="/{{ $locale }}/announcements/tenders" class="block rounded-lg px-4 py-2.5 text-sm font-medium {{ request()->is($locale.'/announcements/tenders*') ? 'bg-brand-50 text-brand-900' : 'text-slate-700 hover:bg-slate-50 hover:text-brand-900' }}">
+                            {{ __('site.nav.tenders') }}
+                        </a>
+                        <a href="/{{ $locale }}/announcements/other" class="block rounded-lg px-4 py-2.5 text-sm font-medium {{ request()->is($locale.'/announcements/other*') ? 'bg-brand-50 text-brand-900' : 'text-slate-700 hover:bg-slate-50 hover:text-brand-900' }}">
+                            {{ __('site.nav.other_announcements') }}
+                        </a>
+                    </div>
+                </div>
             </nav>
 
             <label for="mobile-menu-toggle" class="cursor-pointer rounded-full p-2 text-slate-700 hover:bg-slate-100 lg:hidden">
-                &#9776;
+                <i data-lucide="menu" class="h-6 w-6"></i>
             </label>
         </div>
 
@@ -69,6 +91,13 @@
                     {{ $item['label'] }}
                 </a>
             @endforeach
+            <span class="block px-3 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-brand-700">{{ __('site.nav.announcements') }}</span>
+            <a href="/{{ $locale }}/announcements/tenders" class="block rounded-md px-6 py-2 text-sm font-medium {{ request()->is($locale.'/announcements/tenders*') ? 'bg-brand-50 text-brand-900' : 'text-slate-700 hover:bg-slate-100' }}">
+                {{ __('site.nav.tenders') }}
+            </a>
+            <a href="/{{ $locale }}/announcements/other" class="block rounded-md px-6 py-2 text-sm font-medium {{ request()->is($locale.'/announcements/other*') ? 'bg-brand-50 text-brand-900' : 'text-slate-700 hover:bg-slate-100' }}">
+                {{ __('site.nav.other_announcements') }}
+            </a>
         </nav>
     </div>
 </header>

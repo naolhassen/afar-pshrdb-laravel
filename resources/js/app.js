@@ -1,4 +1,5 @@
 import './bootstrap';
+import { createIcons, icons } from 'lucide';
 
 function initHomeHero() {
     const root = document.getElementById('home-hero');
@@ -145,8 +146,18 @@ function initHomeHero() {
     restartTimer();
 }
 
+function initIcons() {
+    if (typeof createIcons === 'function') {
+        createIcons({ icons, attrs: { 'stroke-width': 2 } });
+    }
+}
+
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHomeHero);
+    document.addEventListener('DOMContentLoaded', () => {
+        initHomeHero();
+        initIcons();
+    });
 } else {
     initHomeHero();
+    initIcons();
 }
