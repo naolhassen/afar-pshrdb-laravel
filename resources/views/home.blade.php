@@ -21,7 +21,7 @@
                     <span id="hero-category" class="rounded bg-brand-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white"></span>
                     <span id="hero-date" class="text-xs font-medium text-white/75"></span>
                 </div>
-                <h1 class="mt-4 text-xl font-extrabold leading-[1.12] tracking-tight text-white sm:text-2xl lg:text-3xl">
+                <h1 class="mt-4 text-lg font-extrabold leading-[1.15] tracking-tight text-white sm:text-xl lg:text-2xl">
                     <a id="hero-title-link" href="#" class="line-clamp-3 transition hover:text-white/85"></a>
                 </h1>
                 <a id="hero-readmore-link" href="#" class="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-white">
@@ -105,16 +105,19 @@
 
             <div class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 @forelse ($latestNews as $item)
-                    <a href="/{{ $locale }}/news/{{ $item->slug }}" class="block overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
-                        @if ($item->image_url)
-                            <div class="relative h-48 w-full overflow-hidden">
-                                <img src="{{ $item->image_url }}" alt="{{ $item->localized('title', $locale) }}" class="h-full w-full object-cover">
-                            </div>
-                        @else
-                            <div class="flex h-48 items-center justify-center bg-gradient-to-br from-brand-800 to-accent-800">
-                                <span class="px-3 py-1 text-xs font-semibold text-white">{{ $item->localized('category', $locale) }}</span>
-                            </div>
-                        @endif
+                    @php
+                        $thumb = $item->imageSlides($locale)[0] ?? asset('images/placeholder.svg');
+                        $category = $item->localized('category', $locale);
+                    @endphp
+                    <a href="/{{ $locale }}/news/{{ $item->slug }}" class="group flex h-full flex-col overflow-hidden rounded-[20px] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
+                        <div class="relative h-48 w-full overflow-hidden bg-slate-100">
+                            <img src="{{ $thumb }}" alt="{{ $item->localized('title', $locale) }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='{{ asset('images/placeholder.svg') }}';">
+                            @if (!$thumb)
+                                <div class="absolute inset-0 flex h-full w-full items-center justify-center bg-gradient-to-br from-brand-800 to-accent-800">
+                                    <span class="px-3 py-1 text-xs font-semibold text-white">{{ $category ?: 'News' }}</span>
+                                </div>
+                            @endif
+                        </div>
                         <div class="p-6">
                             <h3 class="text-lg font-semibold text-slate-900">{{ $item->localized('title', $locale) }}</h3>
                             <p class="mt-2 line-clamp-3 text-sm text-slate-500">{{ $item->localized('excerpt', $locale) }}</p>

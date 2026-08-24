@@ -67,6 +67,9 @@ class Document extends Model
             return null;
         }
 
-        return str_replace('/storage/', '', parse_url($this->file_url, PHP_URL_PATH) ?? '');
+        $path = parse_url($this->file_url, PHP_URL_PATH) ?? $this->file_url;
+        $path = ltrim($path, '/');
+
+        return preg_replace('#^storage/#', '', $path);
     }
 }

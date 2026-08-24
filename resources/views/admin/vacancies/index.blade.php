@@ -17,7 +17,7 @@
 
     @include('admin.partials.table-toolbar', ['filters' => $filters, 'categoryOptions' => $categories])
 
-    <div class="admin-card overflow-hidden animate-scale-in">
+    <div class="admin-card overflow-hidden animate-scale-in" data-admin-table>
         <div class="overflow-x-auto">
             <table class="admin-table w-full min-w-[640px]">
                 <thead>
@@ -53,13 +53,13 @@
                             </td>
                             <td>
                                 <div class="flex items-center justify-end gap-2">
-                                    <a href="{{ route('admin.vacancies.edit', $vacancy) }}" class="btn-icon" aria-label="Edit">
+                                    <a href="{{ route('admin.vacancies.edit', $vacancy) }}" class="btn-icon text-brand-600 hover:border-brand-200 hover:bg-brand-50" aria-label="Edit">
                                         <i data-lucide="pencil" class="h-4 w-4"></i>
                                     </a>
                                     <form method="POST" action="{{ route('admin.vacancies.destroy', $vacancy) }}" class="inline" data-confirm="Delete this vacancy?">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn-icon text-rose-600 hover:bg-rose-50" aria-label="Delete">
+                                        <button type="submit" class="btn-icon text-rose-600 hover:border-rose-200 hover:bg-rose-50" aria-label="Delete">
                                             <i data-lucide="trash-2" class="h-4 w-4"></i>
                                         </button>
                                     </form>
@@ -79,6 +79,24 @@
                 </tbody>
             </table>
         </div>
-        <div class="border-t border-slate-100 px-6 py-4">{{ $vacancies->links() }}</div>
+        <div class="admin-pagination border-t border-slate-100 px-6 py-4">{{ $vacancies->links() }}</div>
+    </div>
+
+    <div class="admin-card overflow-hidden hidden" data-admin-skeleton>
+        <div class="overflow-x-auto">
+            <table class="admin-table w-full min-w-[640px]">
+                <thead>
+                    <tr>
+                        <th class="w-full">Title</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @include('admin.partials.table-skeleton', ['cols' => 4])
+                </tbody>
+            </table>
+        </div>
     </div>
 @endsection
