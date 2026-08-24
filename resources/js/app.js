@@ -152,12 +152,63 @@ function initIcons() {
     }
 }
 
+function initAdminForms() {
+    document.querySelectorAll('form[data-admin-form]').forEach((form) => {
+        form.addEventListener('submit', () => {
+            const button = form.querySelector('[data-loading-text]');
+            if (!button) return;
+
+            button.disabled = true;
+            button.classList.add('opacity-70', 'cursor-not-allowed');
+            const label = button.querySelector('span');
+            if (label) label.textContent = button.dataset.loadingText;
+
+            const icon = button.querySelector('i[data-lucide]');
+            if (icon) {
+                icon.setAttribute('data-lucide', 'loader-2');
+                icon.classList.add('animate-spin-slow');
+                initIcons();
+            }
+        });
+    });
+}
+
+function initConfirmDelete() {
+    document.querySelectorAll('form[data-confirm]').forEach((form) => {
+        form.addEventListener('submit', (e) => {
+            if (!confirm(form.dataset.confirm)) {
+                e.preventDefault();
+            }
+        });
+    });
+}
+
+function initInputValidation() {
+    document.querySelectorAll('input, textarea, select').forEach((field) => {
+        field.addEventListener('blur', () => {
+            if (field.checkValidity()) {
+                field.classList.remove('input-invalid');
+                field.classList.add('input-valid');
+            } else if (field.value !== '' || field.hasAttribute('required')) {
+                field.classList.remove('input-valid');
+                field.classList.add('input-invalid');
+            }
+        });
+    });
+}
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         initHomeHero();
+        initAdminForms();
+        initConfirmDelete();
+        initInputValidation();
         initIcons();
     });
 } else {
     initHomeHero();
+    initAdminForms();
+    initConfirmDelete();
+    initInputValidation();
     initIcons();
 }

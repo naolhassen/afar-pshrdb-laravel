@@ -6,17 +6,22 @@
     <title>@yield('title', 'Admin') &mdash; Afar PSHRDB</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-slate-50 text-slate-900 font-sans antialiased">
-    <div class="min-h-screen flex">
-        <aside class="w-64 flex-shrink-0 bg-gradient-to-b from-brand-950 to-brand-900 text-white shadow-2xl">
-            <div class="p-5 border-b border-white/10">
+<body class="bg-slate-50 text-slate-900 antialiased">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 flex-shrink-0 overflow-y-auto border-r border-slate-200 bg-white shadow-[0_0_40px_-12px_rgba(15,23,42,0.15)]">
+            <div class="p-6">
                 <div class="flex items-center gap-3">
-                    <i data-lucide="shield" class="h-6 w-6 text-accent-400"></i>
-                    <span class="text-lg font-bold tracking-tight">Afar PSHRDB</span>
+                    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 text-white shadow-md">
+                        <i data-lucide="shield" class="h-5 w-5"></i>
+                    </span>
+                    <div>
+                        <div class="text-base font-bold tracking-tight text-slate-900">Afar PSHRDB</div>
+                        <div class="text-xs font-semibold text-slate-400">Admin Portal</div>
+                    </div>
                 </div>
-                <div class="mt-1 text-xs font-medium text-brand-200">Admin Portal</div>
             </div>
-            <nav class="p-3 space-y-1 text-sm">
+            <nav class="space-y-1 px-4 pb-4">
                 @php
                     $links = [
                         ['dashboard', 'layout-dashboard', 'Dashboard'],
@@ -28,29 +33,48 @@
                 @endphp
                 @foreach ($links as $link)
                     <a href="{{ route($link[0] === 'dashboard' ? 'admin.dashboard' : 'admin.' . explode('.', $link[0])[1] . '.index') }}"
-                       class="flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium transition {{ request()->routeIs($link[0]) ? 'bg-white/15 text-white shadow-sm' : 'text-brand-100 hover:bg-white/10 hover:text-white' }}">
-                        <i data-lucide="{{ $link[1] }}" class="h-4 w-4"></i>
+                       class="nav-link {{ request()->routeIs($link[0]) ? 'nav-link-active' : '' }}">
+                        <i data-lucide="{{ $link[1] }}" class="h-4.5 w-4.5"></i>
                         {{ $link[2] }}
                     </a>
                 @endforeach
             </nav>
-            <form method="POST" action="{{ route('admin.logout') }}" class="mt-auto p-3 border-t border-white/10">
-                @csrf
-                <button type="submit" class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-brand-100 transition hover:bg-white/10 hover:text-white">
-                    <i data-lucide="log-out" class="h-4 w-4"></i>
-                    Log out
-                </button>
-            </form>
+            <div class="mt-auto p-4 border-t border-slate-100">
+                <form method="POST" action="{{ route('admin.logout') }}">
+                    @csrf
+                    <button type="submit" class="nav-link w-full text-left text-rose-600 hover:bg-rose-50 hover:text-rose-700">
+                        <i data-lucide="log-out" class="h-4.5 w-4.5"></i>
+                        Log out
+                    </button>
+                </form>
+            </div>
         </aside>
-        <main class="flex-1 p-6 lg:p-10">
-            <div class="max-w-6xl mx-auto">
-                @if (session('status'))
-                    <div class="mb-6 flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800 animate-fade-in">
-                        <i data-lucide="check-circle-2" class="h-4 w-4"></i>
-                        {{ session('status') }}
+
+        <!-- Main -->
+        <main class="flex-1 overflow-y-auto">
+            <div class="sticky top-0 z-10 border-b border-slate-200 bg-white/80 px-6 py-4 backdrop-blur-md">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold text-slate-900">@yield('title', 'Admin')</h2>
+                    <div class="flex items-center gap-3">
+                        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+                            <i data-lucide="bell" class="h-4 w-4"></i>
+                        </span>
+                        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-white text-sm font-bold">
+                            A
+                        </span>
                     </div>
-                @endif
-                @yield('content')
+                </div>
+            </div>
+            <div class="p-6 lg:p-10">
+                <div class="max-w-7xl mx-auto">
+                    @if (session('status'))
+                        <div class="mb-6 flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-3.5 text-sm font-semibold text-emerald-800 animate-fade-in">
+                            <i data-lucide="check-circle-2" class="h-4 w-4"></i>
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    @yield('content')
+                </div>
             </div>
         </main>
     </div>
