@@ -21,7 +21,7 @@
 
         <div class="relative z-10 mx-auto flex min-h-[420px] max-w-7xl flex-col justify-end px-4 pb-14 pt-24 sm:px-6 lg:px-8">
             <a href="/{{ $locale }}/news" class="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20">
-                &larr; {{ __('site.news.back_to_news') }}
+                <i data-lucide="arrow-left" class="h-4 w-4"></i> {{ __('site.news.back_to_news') }}
             </a>
 
             <div class="max-w-4xl">
@@ -75,8 +75,8 @@
                 <div class="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.4)]">
                     <h2 class="text-lg font-bold text-slate-950">{{ __('site.news.title') }}</h2>
                     <p class="mt-2 text-sm leading-6 text-slate-500">{{ __('site.news.subtitle') }}</p>
-                    <a href="/{{ $locale }}/news" class="mt-5 inline-flex items-center gap-2 text-sm font-bold text-brand-700 transition hover:text-brand-900">
-                        {{ __('site.news.view_all') }}
+                    <a href="/{{ $locale }}/news" class="mt-5 inline-flex items-center gap-2 text-sm font-bold text-brand-700 transition hover:text-brand-900 group">
+                        {{ __('site.news.view_all') }} <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i>
                     </a>
                 </div>
 

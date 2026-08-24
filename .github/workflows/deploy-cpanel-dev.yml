@@ -107,5 +107,6 @@ jobs:
             chmod -R 775 bootstrap/cache storage
             php -v
             php artisan migrate --force
+            php artisan db:seed --force
             php artisan optimize
             rm -f /home/${{ secrets.CPANEL_SSH_USER }}/deploy.zip

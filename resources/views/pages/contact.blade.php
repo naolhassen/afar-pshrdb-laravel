@@ -3,62 +3,89 @@
 @section('title', __('site.contact.title'))
 
 @section('content')
-    <section class="bg-gradient-to-r from-brand-950 to-accent-950 py-16 text-white">
-        <div class="mx-auto max-w-7xl px-4">
-            <h1 class="text-4xl font-extrabold">{{ __('site.contact.title') }}</h1>
+    <section class="relative overflow-hidden bg-gradient-to-r from-brand-950 to-accent-950 py-16 text-white">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.08),transparent_40%)]"></div>
+        <div class="relative mx-auto max-w-7xl px-4">
+            <div class="flex items-center gap-3">
+                <i data-lucide="message-circle" class="h-10 w-10 text-accent-400"></i>
+                <h1 class="text-4xl font-extrabold">{{ __('site.contact.title') }}</h1>
+            </div>
             <p class="mt-4 text-brand-100">{{ __('site.contact.subtitle') }}</p>
         </div>
     </section>
 
-    <section class="mx-auto max-w-7xl px-4 py-16">
+    <section class="mx-auto max-w-7xl px-4 py-16 animate-fade-in">
         <div class="grid gap-12 lg:grid-cols-5">
             <div class="lg:col-span-2">
-                <ul class="space-y-6">
-                    <li class="flex items-start gap-4">
-                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">&#128205;</span>
-                        <span class="pt-2.5 text-sm text-slate-600">{{ __('site.contact.address') }}</span>
-                    </li>
-                    <li class="flex items-start gap-4">
-                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">&#128222;</span>
-                        <span class="pt-2.5 text-sm text-slate-600">{{ __('site.contact.phone') }}</span>
-                    </li>
-                    <li class="flex items-start gap-4">
-                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">&#9993;</span>
-                        <span class="pt-2.5 text-sm text-slate-600">{{ __('site.contact.email') }}</span>
-                    </li>
-                    <li class="flex items-start gap-4">
-                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">&#128337;</span>
-                        <span class="pt-2.5 text-sm text-slate-600">{{ __('site.contact.working_hours_title') }}: {{ __('site.contact.working_hours') }}</span>
-                    </li>
-                </ul>
-                <div class="mt-10 flex h-56 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-100 to-accent-100 text-sm font-medium text-brand-400">
-                    Semera, Afar
+                <div class="space-y-5">
+                    <div class="flex items-start gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-1 hover:shadow-md">
+                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+                            <i data-lucide="map-pin" class="h-5 w-5"></i>
+                        </span>
+                        <div>
+                            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Address</div>
+                            <div class="mt-0.5 text-sm text-slate-700">{{ __('site.contact.address') }}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-1 hover:shadow-md">
+                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+                            <i data-lucide="phone" class="h-5 w-5"></i>
+                        </span>
+                        <div>
+                            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Phone</div>
+                            <div class="mt-0.5 text-sm text-slate-700">{{ __('site.contact.phone') }}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-1 hover:shadow-md">
+                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+                            <i data-lucide="mail" class="h-5 w-5"></i>
+                        </span>
+                        <div>
+                            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Email</div>
+                            <div class="mt-0.5 text-sm text-slate-700">{{ __('site.contact.email') }}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-1 hover:shadow-md">
+                        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+                            <i data-lucide="clock" class="h-5 w-5"></i>
+                        </span>
+                        <div>
+                            <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">Working Hours</div>
+                            <div class="mt-0.5 text-sm text-slate-700">{{ __('site.contact.working_hours') }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 flex h-56 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-100 to-accent-100 text-sm font-medium text-brand-600 shadow-inner">
+                    <span class="flex items-center gap-2">
+                        <i data-lucide="map" class="h-5 w-5"></i>
+                        Semera, Afar
+                    </span>
                 </div>
             </div>
 
             <div class="lg:col-span-3">
-                <div class="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-100">
+                <div class="rounded-[24px] bg-white p-8 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.35)] ring-1 ring-slate-100">
                     <form class="space-y-5" method="POST" action="mailto:{{ __('site.contact.email') }}">
                         <div class="grid gap-5 sm:grid-cols-2">
                             <div>
                                 <label for="name" class="mb-1.5 block text-sm font-medium text-slate-700">{{ __('site.contact.form_name') }}</label>
-                                <input id="name" name="name" required class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100">
+                                <input id="name" name="name" required class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100">
                             </div>
                             <div>
                                 <label for="email" class="mb-1.5 block text-sm font-medium text-slate-700">{{ __('site.contact.form_email') }}</label>
-                                <input id="email" name="email" type="email" required class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100">
+                                <input id="email" name="email" type="email" required class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100">
                             </div>
                         </div>
                         <div>
                             <label for="subject" class="mb-1.5 block text-sm font-medium text-slate-700">{{ __('site.contact.form_subject') }}</label>
-                            <input id="subject" name="subject" required class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100">
+                            <input id="subject" name="subject" required class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100">
                         </div>
                         <div>
                             <label for="message" class="mb-1.5 block text-sm font-medium text-slate-700">{{ __('site.contact.form_message') }}</label>
-                            <textarea id="message" name="message" rows="5" required class="w-full rounded-lg border border-slate-200 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100"></textarea>
+                            <textarea id="message" name="message" rows="5" required class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100"></textarea>
                         </div>
-                        <button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-brand-700 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-brand-800">
-                            {{ __('site.contact.form_submit') }}
+                        <button type="submit" class="inline-flex items-center gap-2 rounded-xl bg-brand-700 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-brand-800 hover:-translate-y-0.5">
+                            {{ __('site.contact.form_submit') }} <i data-lucide="send" class="h-4 w-4"></i>
                         </button>
                     </form>
                 </div>

@@ -11,7 +11,7 @@
     </section>
 
     <section class="mx-auto max-w-7xl px-4 py-16">
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 animate-fade-in">
             @forelse ($articles as $item)
                 <a href="/{{ $locale }}/news/{{ $item->slug }}" class="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-1 hover:shadow-lg">
                     @if ($item->image_url)
@@ -32,8 +32,8 @@
                             {{ $item->localized('title', $locale) }}
                         </h2>
                         <p class="mt-2 line-clamp-3 text-sm text-slate-500">{{ $item->localized('excerpt', $locale) }}</p>
-                        <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-700">
-                            {{ __('site.news.read_more') }}
+                        <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-700 group-hover:text-brand-700 transition-colors">
+                            {{ __('site.news.read_more') }} <i data-lucide="arrow-right" class="h-4 w-4 transition-transform group-hover:translate-x-1"></i>
                         </span>
                     </div>
                 </a>
