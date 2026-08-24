@@ -12,11 +12,34 @@ use Illuminate\View\View;
 
 class AnnouncementController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $announcements = Announcement::orderByDesc('date')->paginate(15);
+        $types = collect(['tender', 'other']);
 
-        return view('admin.announcements.index', ['announcements' => $announcements]);
+        $announcements = Announcement::query()
+            ->when($request->query('search'), function ($q, $search) {
+                $q->where(function ($q) use ($search) {
+                    $q->where('title_en', 'like', "%{$search}%")
+                      ->orWhere('title_am', 'like', "%{$search}%")
+                      ->orWhere('title_aa', 'like', "%{$search}%")
+                      ->orWhere('body_en', 'like', "%{$search}%");
+                });
+            })
+            ->when($request->query('category'), function ($q, $type) {
+                $q->where('type', $type);
+            })
+            ->when($request->query('status') !== null, function ($q) use ($request) {
+                $q->where('published', $request->query('status') === 'published');
+            })
+            ->orderByDesc('date')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('admin.announcements.index', [
+            'announcements' => $announcements,
+            'filters' => $request->only(['search', 'category', 'status']),
+            'categories' => $types,
+        ]);
     }
 
     public function create(): View

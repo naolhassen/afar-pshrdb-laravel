@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PageController;
@@ -34,8 +35,7 @@ Route::prefix('{locale}')->middleware('setlocale')->group(function () {
     Route::get('/vacancies', [VacancyController::class, 'index'])->name('vacancies');
     Route::get('/vacancies/{slug}', [VacancyController::class, 'show'])->name('vacancies.show');
 
-    Route::get('/documents', fn (string $locale) => app(PageController::class)
-        ->staticPage($locale, 'documents', 'site.nav.documents'))->name('documents');
+    Route::get('/documents', [DocumentController::class, 'index'])->name('documents');
 
     Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 });

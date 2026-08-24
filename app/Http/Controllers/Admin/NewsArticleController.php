@@ -12,11 +12,36 @@ use Illuminate\View\View;
 
 class NewsArticleController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $articles = NewsArticle::orderByDesc('date')->paginate(15);
+        $categories = NewsArticle::query()->whereNotNull('category_en')->distinct()->pluck('category_en');
 
-        return view('admin.news.index', ['articles' => $articles]);
+        $articles = NewsArticle::query()
+            ->when($request->query('search'), function ($q, $search) {
+                $q->where(function ($q) use ($search) {
+                    $q->where('title_en', 'like', "%{$search}%")
+                      ->orWhere('title_am', 'like', "%{$search}%")
+                      ->orWhere('title_aa', 'like', "%{$search}%")
+                      ->orWhere('body_en', 'like', "%{$search}%")
+                      ->orWhere('body_am', 'like', "%{$search}%")
+                      ->orWhere('body_aa', 'like', "%{$search}%");
+                });
+            })
+            ->when($request->query('category'), function ($q, $category) {
+                $q->where('category_en', $category);
+            })
+            ->when($request->query('status') !== null, function ($q) use ($request) {
+                $q->where('published', $request->query('status') === 'published');
+            })
+            ->orderByDesc('date')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('admin.news.index', [
+            'articles' => $articles,
+            'filters' => $request->only(['search', 'category', 'status']),
+            'categories' => $categories,
+        ]);
     }
 
     public function create(): View

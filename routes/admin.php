@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\NewsArticleController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\VacancyController;
@@ -22,4 +23,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('pages', PageController::class)->except('show');
     Route::resource('announcements', AnnouncementController::class)->except('show');
     Route::resource('vacancies', VacancyController::class)->except('show');
+    Route::resource('documents', DocumentController::class)->except('show');
 });

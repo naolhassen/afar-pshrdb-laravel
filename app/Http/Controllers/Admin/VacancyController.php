@@ -11,11 +11,29 @@ use Illuminate\View\View;
 
 class VacancyController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $vacancies = Vacancy::orderByDesc('deadline')->paginate(15);
+        $vacancies = Vacancy::query()
+            ->when($request->query('search'), function ($q, $search) {
+                $q->where(function ($q) use ($search) {
+                    $q->where('title_en', 'like', "%{$search}%")
+                      ->orWhere('title_am', 'like', "%{$search}%")
+                      ->orWhere('title_aa', 'like', "%{$search}%")
+                      ->orWhere('description_en', 'like', "%{$search}%");
+                });
+            })
+            ->when($request->query('status') !== null, function ($q) use ($request) {
+                $q->where('published', $request->query('status') === 'published');
+            })
+            ->orderByDesc('deadline')
+            ->paginate(15)
+            ->withQueryString();
 
-        return view('admin.vacancies.index', ['vacancies' => $vacancies]);
+        return view('admin.vacancies.index', [
+            'vacancies' => $vacancies,
+            'filters' => $request->only(['search', 'status']),
+            'categories' => collect(),
+        ]);
     }
 
     public function create(): View

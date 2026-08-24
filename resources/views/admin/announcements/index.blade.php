@@ -15,6 +15,8 @@
         </a>
     </div>
 
+    @include('admin.partials.table-toolbar', ['filters' => $filters, 'categoryOptions' => $categories])
+
     <div class="admin-card overflow-hidden animate-scale-in">
         <div class="overflow-x-auto">
             <table class="admin-table w-full min-w-[640px]">
@@ -29,7 +31,7 @@
                 </thead>
                 <tbody>
                     @forelse ($announcements as $announcement)
-                        <tr>
+                        <tr class="group">
                             <td>
                                 <div class="font-semibold text-slate-900">{{ $announcement->title_en }}</div>
                             </td>
@@ -47,11 +49,11 @@
                             </td>
                             <td>
                                 @if ($announcement->published)
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-100">
+                                    <span class="status-badge status-published">
                                         <i data-lucide="check" class="h-3 w-3"></i> Published
                                     </span>
                                 @else
-                                    <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700 ring-1 ring-amber-100">
+                                    <span class="status-badge status-draft">
                                         <i data-lucide="pencil" class="h-3 w-3"></i> Draft
                                     </span>
                                 @endif

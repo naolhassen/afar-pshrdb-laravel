@@ -203,8 +203,37 @@ body {
     @apply border-b border-slate-100 transition last:border-0;
   }
 
+  .admin-table tbody tr:nth-child(even) {
+    @apply bg-slate-50/40;
+  }
+
+  .admin-table tbody tr {
+    @apply transition-colors duration-200;
+  }
+
   .admin-table tbody tr:hover {
-    @apply bg-slate-50/80;
+    @apply bg-slate-50;
+    transform: translateX(2px);
+  }
+
+  .status-badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold ring-1;
+  }
+
+  .status-published {
+    @apply bg-emerald-50 text-emerald-700 ring-emerald-100;
+  }
+
+  .status-draft {
+    @apply bg-amber-50 text-amber-700 ring-amber-100;
+  }
+
+  .status-closed {
+    @apply bg-slate-100 text-slate-600 ring-slate-200;
+  }
+
+  .skeleton-row td {
+    @apply py-4;
   }
 
   /* Nav */

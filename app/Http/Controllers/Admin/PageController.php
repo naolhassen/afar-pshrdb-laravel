@@ -12,11 +12,29 @@ use Illuminate\View\View;
 
 class PageController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $pages = Page::orderBy('slug')->paginate(15);
+        $pages = Page::query()
+            ->when($request->query('search'), function ($q, $search) {
+                $q->where(function ($q) use ($search) {
+                    $q->where('title_en', 'like', "%{$search}%")
+                      ->orWhere('title_am', 'like', "%{$search}%")
+                      ->orWhere('title_aa', 'like', "%{$search}%")
+                      ->orWhere('slug', 'like', "%{$search}%");
+                });
+            })
+            ->when($request->query('status') !== null, function ($q) use ($request) {
+                $q->where('published', $request->query('status') === 'published');
+            })
+            ->orderBy('slug')
+            ->paginate(15)
+            ->withQueryString();
 
-        return view('admin.pages.index', ['pages' => $pages]);
+        return view('admin.pages.index', [
+            'pages' => $pages,
+            'filters' => $request->only(['search', 'status']),
+            'categories' => collect(),
+        ]);
     }
 
     public function create(): View
