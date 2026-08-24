@@ -192,11 +192,11 @@ body {
 
   /* Tables */
   .admin-table th {
-    @apply sticky top-0 bg-slate-50 px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500;
+    @apply sticky top-0 bg-slate-50/95 px-5 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 backdrop-blur-sm;
   }
 
   .admin-table td {
-    @apply px-4 py-4 text-sm text-slate-700;
+    @apply px-5 py-5 text-sm text-slate-700;
   }
 
   .admin-table tr {
@@ -204,7 +204,7 @@ body {
   }
 
   .admin-table tbody tr:nth-child(even) {
-    @apply bg-slate-50/40;
+    @apply bg-slate-50/60;
   }
 
   .admin-table tbody tr {
@@ -212,8 +212,8 @@ body {
   }
 
   .admin-table tbody tr:hover {
-    @apply bg-slate-50;
-    transform: translateX(2px);
+    @apply bg-brand-50/40;
+    transform: translateX(4px);
   }
 
   .status-badge {
@@ -232,6 +232,31 @@ body {
     @apply bg-slate-100 text-slate-600 ring-slate-200;
   }
 
+  .admin-pagination nav {
+    @apply flex flex-wrap items-center justify-between gap-3;
+  }
+
+  .admin-pagination nav a,
+  .admin-pagination nav span:not(.hidden),
+  .admin-pagination nav svg {
+    @apply inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-sm font-medium transition;
+  }
+
+  .admin-pagination nav a,
+  .admin-pagination nav svg[aria-hidden] {
+    @apply border border-slate-200 bg-white text-slate-700 shadow-sm hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700;
+  }
+
+  .admin-pagination nav [aria-current="page"] span,
+  .admin-pagination nav span[aria-current="page"] {
+    @apply bg-brand-600 text-white shadow-sm border-transparent;
+  }
+
+  .admin-pagination nav span.disabled,
+  .admin-pagination nav span[aria-disabled="true"] {
+    @apply text-slate-400 cursor-not-allowed;
+  }
+
   .skeleton-row td {
     @apply py-4;
   }
@@ -243,10 +268,16 @@ body {
 
   .nav-link:hover {
     @apply bg-slate-100 text-slate-900;
+    transform: translateX(3px);
   }
 
   .nav-link-active {
-    @apply bg-brand-50 text-brand-700 shadow-sm;
+    @apply relative bg-gradient-to-r from-brand-50 to-white text-brand-700 shadow-sm;
+  }
+
+  .nav-link-active::before {
+    content: '';
+    @apply absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-brand-500;
   }
 }
 
@@ -312,6 +343,20 @@ body {
 
   .skeleton {
     @apply animate-pulse rounded-2xl bg-slate-200;
+  }
+
+  .skeleton-shimmer {
+    @apply relative overflow-hidden;
+  }
+
+  .skeleton-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 1.4s ease-in-out infinite;
   }
 
   .glass-button {

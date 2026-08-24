@@ -9,7 +9,7 @@
 <body class="bg-slate-50 text-slate-900 antialiased">
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <aside class="w-64 flex-shrink-0 overflow-y-auto border-r border-slate-200 bg-white shadow-[0_0_40px_-12px_rgba(15,23,42,0.15)]">
+        <aside class="w-64 flex-shrink-0 overflow-y-auto border-r border-slate-200 bg-gradient-to-b from-slate-50 via-white to-white shadow-[0_0_50px_-15px_rgba(15,23,42,0.18)]">
             <div class="p-6">
                 <div class="flex items-center gap-3">
                     <img src="{{ asset('logo.png') }}" alt="Afar PSHRDB Bureau Logo" class="h-12 w-12 rounded-xl bg-white object-contain p-1.5 shadow-sm ring-1 ring-slate-100">
@@ -55,16 +55,19 @@
                 <div class="flex items-center justify-between">
                     <h2 class="text-lg font-bold text-slate-900">@yield('title', 'Admin')</h2>
                     <div class="flex items-center gap-3">
-                        <a href="/" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-2 rounded-xl bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200 hover:text-slate-900">
-                            <i data-lucide="external-link" class="h-4 w-4"></i>
+                        <a href="/" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-0.5 hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700 hover:shadow-md">
+                            <i data-lucide="external-link" class="h-4 w-4 text-brand-500"></i>
                             Visit Site
                         </a>
                         <span class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-500">
                             <i data-lucide="bell" class="h-4 w-4"></i>
                         </span>
-                        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-white text-sm font-bold">
-                            A
-                        </span>
+                        <div class="flex items-center gap-2.5 pl-2">
+                            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-white text-sm font-bold shadow-md ring-2 ring-white/40">
+                                {{ strtoupper(substr(auth('admin')->user()?->name ?? 'Admin', 0, 1)) }}
+                            </span>
+                            <span class="hidden text-sm font-semibold text-slate-700 lg:block">{{ auth('admin')->user()?->name ?? 'Admin' }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
