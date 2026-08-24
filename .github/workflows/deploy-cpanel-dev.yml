@@ -5,9 +5,14 @@ on:
     branches: [dev]
   workflow_dispatch:
 
+concurrency:
+  group: deploy-cpanel-dev
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -60,6 +65,22 @@ jobs:
             -x "public/hot" \
             -x "public/storage"
 
+      - name: Prepare remote process headroom
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          DEBUGINFOD_URLS: ""
+        with:
+          host: ${{ secrets.CPANEL_SSH_HOST }}
+          username: ${{ secrets.CPANEL_SSH_USER }}
+          key: ${{ secrets.CPANEL_SSH_KEY }}
+          passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
+          port: ${{ secrets.CPANEL_SSH_PORT || '22' }}
+          envs: DEBUGINFOD_URLS
+          script: |
+            set +e
+            pkill -9 -f debuginfod 2>/dev/null || true
+            pgrep -af debuginfod 2>/dev/null | head -n 5 || true
+
       - name: Upload deploy zip to cPanel
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -73,12 +94,15 @@ jobs:
 
       - name: Extract and finish on cPanel
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          DEBUGINFOD_URLS: ""
         with:
           host: ${{ secrets.CPANEL_SSH_HOST }}
           username: ${{ secrets.CPANEL_SSH_USER }}
           key: ${{ secrets.CPANEL_SSH_KEY }}
           passphrase: ${{ secrets.CPANEL_SSH_PASSPHRASE }}
           port: ${{ secrets.CPANEL_SSH_PORT || '22' }}
+          envs: DEBUGINFOD_URLS
           script: |
             set -e
             APP_DIR='${{ secrets.CPANEL_DEV_DIR }}'
