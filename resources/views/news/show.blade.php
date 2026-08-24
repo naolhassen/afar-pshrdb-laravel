@@ -3,6 +3,7 @@
 @php
     $images = $article->imageSlides($locale);
     $paragraphs = $article->bodyParagraphs($locale);
+    $firstImage = $images[0] ?? null;
 @endphp
 
 @section('title', $article->localized('title', $locale))
@@ -10,11 +11,10 @@
 @section('content')
     <section class="relative overflow-hidden bg-slate-950 text-white">
         <div class="absolute inset-0">
-            @if ($article->image_url)
-                <img src="{{ $article->image_url }}" alt="{{ $article->localized('title', $locale) }}" class="h-full w-full object-cover">
-            @else
-                <div class="absolute inset-0 bg-[linear-gradient(120deg,#142756_0%,#193e8d_45%,#0f6133_100%)]"></div>
-            @endif
+            @php
+                $heroImage = $article->image_url ?: $firstImage ?: asset('images/placeholder.svg');
+            @endphp
+            <img src="{{ $heroImage }}" alt="{{ $article->localized('title', $locale) }}" class="h-full w-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/placeholder.svg') }}';">
             <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(5,15,31,0.76)_0%,rgba(5,15,31,0.48)_48%,rgba(5,15,31,0.16)_100%)]"></div>
             <div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,15,31,0.78)_0%,rgba(5,15,31,0.08)_68%)]"></div>
         </div>
@@ -48,19 +48,19 @@
                     <div class="mb-10 grid gap-4 sm:grid-cols-2">
                         @foreach ($images as $img)
                             <div class="relative h-56 overflow-hidden rounded-[20px] border border-slate-200 bg-slate-100">
-                                <img src="{{ $img }}" alt="{{ $article->localized('title', $locale) }}" class="h-full w-full object-cover">
+                                <img src="{{ $img }}" alt="{{ $article->localized('title', $locale) }}" class="h-full w-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/placeholder.svg') }}';">
                             </div>
                         @endforeach
                     </div>
                 @elseif (count($images) === 1)
                     <div class="relative mb-10 h-[320px] overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 sm:h-[440px]">
-                        <img src="{{ $images[0] }}" alt="{{ $article->localized('title', $locale) }}" class="h-full w-full object-cover">
+                        <img src="{{ $images[0] }}" alt="{{ $article->localized('title', $locale) }}" class="h-full w-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/placeholder.svg') }}';">
                     </div>
                 @endif
 
-                @if ($article->video_url)
-                    <div class="mb-10 overflow-hidden rounded-[24px] border border-slate-200 bg-slate-950 shadow-sm">
-                        <video src="{{ $article->video_url }}" controls class="h-full w-full" poster="{{ $article->image_url }}"></video>
+                @if ($article->video_url && trim($article->video_url) !== '')
+                    <div class="mb-10 overflow-hidden rounded-[24px] border border-slate-200 bg-slate-950 shadow-sm aspect-video w-full">
+                        <video src="{{ $article->video_url }}" controls playsinline class="h-full w-full object-cover" poster="{{ $article->image_url ?: $firstImage ?: asset('images/placeholder.svg') }}"></video>
                     </div>
                 @endif
 
@@ -85,12 +85,11 @@
                     <div class="mt-5 space-y-5">
                         @foreach ($latest as $item)
                             <a href="/{{ $locale }}/news/{{ $item->slug }}" class="grid grid-cols-[84px_1fr] gap-4 group">
+                                @php
+                                    $thumb = $item->imageSlides($locale)[0] ?? asset('images/placeholder.svg');
+                                @endphp
                                 <span class="relative h-20 overflow-hidden rounded-2xl bg-slate-100">
-                                    @if ($item->image_url)
-                                        <img src="{{ $item->image_url }}" alt="{{ $item->localized('title', $locale) }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-110">
-                                    @else
-                                        <span class="absolute inset-0 bg-[linear-gradient(120deg,#142756_0%,#0f6133_100%)]"></span>
-                                    @endif
+                                    <img src="{{ $thumb }}" alt="{{ $item->localized('title', $locale) }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-110" onerror="this.onerror=null; this.src='{{ asset('images/placeholder.svg') }}';">
                                 </span>
                                 <span class="min-w-0">
                                     <span class="block text-sm font-bold leading-snug text-slate-900 line-clamp-2 group-hover:text-brand-700">
