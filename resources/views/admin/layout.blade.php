@@ -12,9 +12,7 @@
         <aside class="w-64 flex-shrink-0 overflow-y-auto border-r border-slate-200 bg-white shadow-[0_0_40px_-12px_rgba(15,23,42,0.15)]">
             <div class="p-6">
                 <div class="flex items-center gap-3">
-                    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 text-white shadow-md">
-                        <i data-lucide="shield" class="h-5 w-5"></i>
-                    </span>
+                    <img src="{{ asset('logo.png') }}" alt="Afar PSHRDB Bureau Logo" class="h-12 w-12 rounded-xl bg-white object-contain p-1.5 shadow-sm ring-1 ring-slate-100">
                     <div>
                         <div class="text-base font-bold tracking-tight text-slate-900">Afar PSHRDB</div>
                         <div class="text-xs font-semibold text-slate-400">Admin Portal</div>

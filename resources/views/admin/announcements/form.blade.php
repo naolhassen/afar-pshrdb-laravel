@@ -58,7 +58,7 @@
                 'icon' => 'tag',
                 'value' => $announcement->type,
                 'required' => true,
-                'options' => ['tender' => 'Tender', 'vacancy' => 'Vacancy', 'other' => 'Other'],
+                'options' => ['tender' => 'Tender', 'other' => 'Other'],
             ])
         </div>
 

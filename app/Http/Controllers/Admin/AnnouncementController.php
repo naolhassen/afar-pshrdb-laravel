@@ -63,7 +63,7 @@ class AnnouncementController extends Controller
         return $request->validate([
             'slug' => ['nullable', 'string', 'max:255'],
             'date' => ['required', 'date'],
-            'type' => ['required', 'string', 'in:tender,vacancy,other'],
+            'type' => ['required', 'string', 'in:tender,other'],
             'published' => ['boolean'],
             'title_en' => ['required', 'string', 'max:255'],
             'title_am' => ['nullable', 'string', 'max:255'],

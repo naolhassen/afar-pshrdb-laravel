@@ -32,11 +32,6 @@
                     <img src="{{ $item->image_url }}" alt="{{ $item->localized('title', $locale) }}" class="h-auto w-full object-cover">
                 </div>
             @endif
-            @if ($item->video_url)
-                <div class="mb-8 overflow-hidden rounded-2xl shadow-sm">
-                    <video src="{{ $item->video_url }}" controls class="h-auto w-full" poster="{{ $item->image_url }}"></video>
-                </div>
-            @endif
             <div class="space-y-6 leading-relaxed text-slate-700">
                 @foreach ($item->localizedParagraphs('body', $locale) as $para)
                     <p>{{ $para }}</p>

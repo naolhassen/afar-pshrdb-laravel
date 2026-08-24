@@ -16,4 +16,14 @@ class VacancyController extends Controller
             'vacancies' => $vacancies,
         ]);
     }
+
+    public function show(string $locale, string $slug): View
+    {
+        $vacancy = Vacancy::published()->where('slug', $slug)->firstOrFail();
+
+        return view('vacancies.show', [
+            'locale' => $locale,
+            'vacancy' => $vacancy,
+        ]);
+    }
 }

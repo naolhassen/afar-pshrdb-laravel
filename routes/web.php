@@ -32,6 +32,7 @@ Route::prefix('{locale}')->middleware('setlocale')->group(function () {
         ->staticPage($locale, 'services-request', 'site.nav.request_service'))->name('services.request');
 
     Route::get('/vacancies', [VacancyController::class, 'index'])->name('vacancies');
+    Route::get('/vacancies/{slug}', [VacancyController::class, 'show'])->name('vacancies.show');
 
     Route::get('/documents', fn (string $locale) => app(PageController::class)
         ->staticPage($locale, 'documents', 'site.nav.documents'))->name('documents');

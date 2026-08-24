@@ -53,6 +53,11 @@
                                 </ul>
                             </div>
                         @endif
+                        <div class="mt-6">
+                            <a href="{{ route('vacancies.show', ['locale' => $locale, 'slug' => $vacancy->slug]) }}" class="inline-flex items-center gap-2 text-sm font-semibold text-brand-700 transition hover:text-brand-900">
+                                View Details <i data-lucide="arrow-right" class="h-4 w-4"></i>
+                            </a>
+                        </div>
                     </div>
                 @endforeach
             </div>
