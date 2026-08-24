@@ -21,10 +21,9 @@
                     <span id="hero-category" class="rounded bg-brand-600 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white"></span>
                     <span id="hero-date" class="text-xs font-medium text-white/75"></span>
                 </div>
-                <h1 class="mt-4 text-2xl font-extrabold leading-[1.12] tracking-tight text-white sm:text-3xl lg:text-[34px]">
+                <h1 class="mt-4 text-xl font-extrabold leading-[1.12] tracking-tight text-white sm:text-2xl lg:text-3xl">
                     <a id="hero-title-link" href="#" class="line-clamp-3 transition hover:text-white/85"></a>
                 </h1>
-                <p id="hero-excerpt" class="mt-4 max-w-lg text-sm leading-relaxed text-white/75 line-clamp-2"></p>
                 <a id="hero-readmore-link" href="#" class="mt-6 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-white">
                     <span>{{ __('site.news.read_more') }}</span>
                     <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>

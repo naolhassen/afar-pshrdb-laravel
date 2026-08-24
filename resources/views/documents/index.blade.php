@@ -42,10 +42,22 @@
                             @endforeach
                         </div>
 
-                        <a href="{{ $document->file_url }}" target="_blank" rel="noreferrer" class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-md">
-                            <i data-lucide="download" class="h-4 w-4"></i>
-                            Download
-                        </a>
+                        @if ($document->file_url)
+                            <div class="mt-5 grid grid-cols-2 gap-3">
+                                <a href="{{ route('documents.download', ['locale' => $locale, 'document' => $document]) }}" class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-brand-700 hover:shadow-md">
+                                    <i data-lucide="download" class="h-4 w-4"></i>
+                                    Download
+                                </a>
+                                <a href="{{ route('documents.read', ['locale' => $locale, 'document' => $document]) }}" target="_blank" rel="noreferrer" class="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-100 px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:bg-slate-200 hover:text-slate-900">
+                                    <i data-lucide="book-open" class="h-4 w-4"></i>
+                                    Read
+                                </a>
+                            </div>
+                        @else
+                            <p class="mt-5 text-sm font-semibold text-rose-600">
+                                <i data-lucide="file-x" class="inline h-4 w-4"></i> File unavailable
+                            </p>
+                        @endif
                     </div>
                 @endforeach
             </div>

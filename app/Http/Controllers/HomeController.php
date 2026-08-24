@@ -15,7 +15,7 @@ class HomeController extends Controller
             ->get();
 
         $heroSlides = $latestNews->take(4)->map(fn (NewsArticle $item) => [
-            'imageUrl' => $item->image_url,
+            'imageUrl' => $item->image_url ?: ($item->imageSlides($locale)[0] ?? null),
             'title' => $item->localized('title', $locale) ?: __('site.hero.title'),
             'excerpt' => $item->localized('excerpt', $locale) ?: __('site.hero.subtitle'),
             'slug' => $item->slug,

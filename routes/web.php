@@ -36,6 +36,8 @@ Route::prefix('{locale}')->middleware('setlocale')->group(function () {
     Route::get('/vacancies/{slug}', [VacancyController::class, 'show'])->name('vacancies.show');
 
     Route::get('/documents', [DocumentController::class, 'index'])->name('documents');
+    Route::get('/documents/{document}/download', [DocumentController::class, 'download'])->name('documents.download');
+    Route::get('/documents/{document}/read', [DocumentController::class, 'read'])->name('documents.read');
 
     Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 });

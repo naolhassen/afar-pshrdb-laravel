@@ -31,8 +31,8 @@
     <article class="mx-auto max-w-4xl px-4 py-14 animate-fade-in">
         <div class="rounded-[28px] border border-slate-200 bg-white p-8 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.35)]">
             @if ($vacancy->image_url)
-                <div class="mb-8 overflow-hidden rounded-2xl shadow-sm">
-                    <img src="{{ $vacancy->image_url }}" alt="{{ $vacancy->localized('title', $locale) }}" class="h-auto w-full object-cover">
+                <div class="relative -mx-8 -mt-8 mb-8 aspect-[16/9] w-[calc(100%+4rem)] overflow-hidden rounded-t-[28px] bg-slate-100">
+                    <img src="{{ $vacancy->image_url }}" alt="{{ $vacancy->localized('title', $locale) }}" class="h-full w-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/placeholder.svg') }}';">
                 </div>
             @endif
 

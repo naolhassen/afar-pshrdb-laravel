@@ -55,4 +55,18 @@ class Document extends Model
             })
             : $query;
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
+    public function filePath(): ?string
+    {
+        if (! $this->file_url) {
+            return null;
+        }
+
+        return str_replace('/storage/', '', parse_url($this->file_url, PHP_URL_PATH) ?? '');
+    }
 }

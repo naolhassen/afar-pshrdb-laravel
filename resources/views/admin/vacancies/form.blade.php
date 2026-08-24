@@ -28,11 +28,12 @@
 
     <form method="POST"
           action="{{ $vacancy->exists ? route('admin.vacancies.update', $vacancy) : route('admin.vacancies.store') }}"
+          enctype="multipart/form-data"
           class="admin-card p-6 sm:p-8 space-y-8 animate-scale-in" data-admin-form novalidate>
         @csrf
         @if ($vacancy->exists) @method('PUT') @endif
 
-        <div class="grid gap-6 sm:grid-cols-2">
+        <div class="grid gap-6 sm:grid-cols-3">
             @include('admin.partials.field', [
                 'name' => 'slug',
                 'label' => 'Slug (optional)',
@@ -50,7 +51,30 @@
                 'value' => $vacancy->deadline,
                 'required' => true,
             ])
+
+            @include('admin.partials.field', [
+                'name' => 'image',
+                'label' => $vacancy->exists ? 'Replace Image' : 'Image',
+                'type' => 'file',
+                'icon' => 'image',
+                'accept' => '.jpg,.jpeg,.png,.webp',
+                'help' => 'JPG, PNG, WebP. Max 5MB.',
+            ])
         </div>
+
+        @if ($vacancy->image_url)
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 animate-fade-in">
+                <div class="flex items-center gap-4">
+                    <span class="relative h-24 w-36 overflow-hidden rounded-xl bg-white shadow-sm">
+                        <img src="{{ $vacancy->image_url }}" alt="Current image" class="h-full w-full object-cover">
+                    </span>
+                    <div>
+                        <div class="text-sm font-semibold text-slate-700">Current image</div>
+                        <a href="{{ $vacancy->image_url }}" target="_blank" rel="noreferrer" class="text-sm text-brand-600 hover:text-brand-800 transition">View image</a>
+                    </div>
+                </div>
+            </div>
+        @endif
 
         @foreach (['en' => 'English', 'am' => 'Amharic', 'aa' => 'Afar'] as $code => $label)
             <fieldset class="admin-card border-l-4 border-l-rose-500 p-6">

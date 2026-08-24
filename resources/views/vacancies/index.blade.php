@@ -22,6 +22,11 @@
             <div class="mt-8 space-y-6">
                 @foreach ($vacancies as $vacancy)
                     <div class="rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-1 hover:shadow-lg">
+                        @if ($vacancy->image_url)
+                            <div class="relative -mx-6 -mt-6 mb-6 aspect-[16/9] w-[calc(100%+3rem)] overflow-hidden rounded-t-[24px] bg-slate-100">
+                                <img src="{{ $vacancy->image_url }}" alt="{{ $vacancy->localized('title', $locale) }}" class="h-full w-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/placeholder.svg') }}';">
+                            </div>
+                        @endif
                         <div class="flex flex-wrap items-start justify-between gap-4">
                             <h2 class="text-xl font-bold text-slate-900">{{ $vacancy->localized('title', $locale) }}</h2>
                             @if ($vacancy->deadline)

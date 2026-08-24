@@ -9,48 +9,27 @@
 @section('title', $article->localized('title', $locale))
 
 @section('content')
-    <section class="relative overflow-hidden bg-slate-950 text-white">
-        <div class="absolute inset-0">
-            @php
-                $heroImage = $article->image_url ?: $firstImage ?: asset('images/placeholder.svg');
-            @endphp
-            <img src="{{ $heroImage }}" alt="{{ $article->localized('title', $locale) }}" class="h-full w-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/placeholder.svg') }}';">
-            <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(5,15,31,0.76)_0%,rgba(5,15,31,0.48)_48%,rgba(5,15,31,0.16)_100%)]"></div>
-            <div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(5,15,31,0.78)_0%,rgba(5,15,31,0.08)_68%)]"></div>
-        </div>
-
-        <div class="relative z-10 mx-auto flex min-h-[420px] max-w-7xl flex-col justify-end px-4 pb-14 pt-24 sm:px-6 lg:px-8">
-            <a href="/{{ $locale }}/news" class="mb-8 inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20">
+    <section class="bg-white pt-12 pb-6">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <a href="/{{ $locale }}/news" class="inline-flex w-fit items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900">
                 <i data-lucide="arrow-left" class="h-4 w-4"></i> {{ __('site.news.back_to_news') }}
             </a>
-
-            <div class="max-w-4xl">
-                <div class="flex flex-wrap items-center gap-3 text-sm">
-                    <span class="rounded bg-brand-600 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.14em] text-white">
-                        {{ $article->localized('category', $locale) }}
-                    </span>
-                    <span class="text-white/80">{{ $article->date }}</span>
-                </div>
-                <h1 class="mt-5 text-balance text-4xl font-black leading-[1.08] tracking-tight sm:text-5xl">
-                    {{ $article->localized('title', $locale) }}
-                </h1>
-                <p class="mt-6 max-w-3xl text-lg leading-8 text-white/80">
-                    {{ $article->localized('excerpt', $locale) }}
-                </p>
-            </div>
         </div>
     </section>
 
-    <article class="bg-slate-50">
-        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8">
+    <article class="bg-slate-50 pb-20">
+        <div class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:px-8">
             <div class="min-w-0 rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_18px_50px_-32px_rgba(15,23,42,0.45)] sm:p-8 lg:p-10">
                 @if (count($images) > 1)
-                    <div class="mb-10 grid gap-4 sm:grid-cols-2">
-                        @foreach ($images as $img)
-                            <div class="relative h-56 overflow-hidden rounded-[20px] border border-slate-200 bg-slate-100">
-                                <img src="{{ $img }}" alt="{{ $article->localized('title', $locale) }}" class="h-full w-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/placeholder.svg') }}';">
-                            </div>
-                        @endforeach
+                    <div class="relative mb-10 overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 shadow-sm" data-news-slider data-images='{{ json_encode($images) }}' data-title="{{ $article->localized('title', $locale) }}" data-placeholder="{{ asset('images/placeholder.svg') }}">
+                        <img class="news-slider-img h-[320px] w-full object-cover transition duration-500 sm:h-[440px]" src="{{ $images[0] }}" alt="{{ $article->localized('title', $locale) }}" onerror="this.onerror=null; this.src='{{ asset('images/placeholder.svg') }}';">
+                        <button type="button" class="news-slider-prev absolute left-3 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white/90 text-slate-700 shadow-sm backdrop-blur transition hover:bg-white" aria-label="Previous">
+                            <i data-lucide="chevron-left" class="h-5 w-5"></i>
+                        </button>
+                        <button type="button" class="news-slider-next absolute right-3 top-1/2 z-10 inline-flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white/90 text-slate-700 shadow-sm backdrop-blur transition hover:bg-white" aria-label="Next">
+                            <i data-lucide="chevron-right" class="h-5 w-5"></i>
+                        </button>
+                        <div class="news-slider-dots absolute bottom-4 left-1/2 z-10 -translate-x-1/2 flex gap-2"></div>
                     </div>
                 @elseif (count($images) === 1)
                     <div class="relative mb-10 h-[320px] overflow-hidden rounded-[24px] border border-slate-200 bg-slate-100 sm:h-[440px]">
@@ -58,13 +37,36 @@
                     </div>
                 @endif
 
+                <div class="mb-10">
+                    <div class="flex flex-wrap items-center gap-3 text-sm">
+                        @if ($article->localized('category', $locale))
+                            <span class="inline-flex items-center gap-1 rounded-full bg-brand-100 px-3 py-1 text-xs font-bold text-brand-700 ring-1 ring-brand-200">
+                                <i data-lucide="tag" class="h-3 w-3"></i>
+                                {{ $article->localized('category', $locale) }}
+                            </span>
+                        @endif
+                        <span class="inline-flex items-center gap-1 text-slate-500">
+                            <i data-lucide="calendar" class="h-3.5 w-3.5"></i>
+                            {{ $article->date }}
+                        </span>
+                    </div>
+                    <h1 class="mt-5 text-balance text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-4xl">
+                        {{ $article->localized('title', $locale) }}
+                    </h1>
+                    @if ($article->localized('excerpt', $locale))
+                        <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
+                            {{ $article->localized('excerpt', $locale) }}
+                        </p>
+                    @endif
+                </div>
+
                 @if ($article->video_url && trim($article->video_url) !== '')
                     <div class="mb-10 overflow-hidden rounded-[24px] border border-slate-200 bg-slate-950 shadow-sm aspect-video w-full">
                         <video src="{{ $article->video_url }}" controls playsinline class="h-full w-full object-cover" poster="{{ $article->image_url ?: $firstImage ?: asset('images/placeholder.svg') }}"></video>
                     </div>
                 @endif
 
-                <div class="space-y-6 text-[17px] leading-8 text-slate-700">
+                <div class="prose prose-slate max-w-none space-y-6 text-[17px] leading-8 text-slate-700">
                     @foreach ($paragraphs as $para)
                         <p>{{ $para }}</p>
                     @endforeach

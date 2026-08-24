@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Vacancy;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -45,6 +46,7 @@ class VacancyController extends Controller
     {
         $data = $this->validated($request);
         $data['slug'] = $data['slug'] ?: Str::slug($data['title_en']);
+        $data['image_url'] = $this->handleImageUpload($request, $data['image_url'] ?? null);
 
         Vacancy::create($data);
 
@@ -60,6 +62,7 @@ class VacancyController extends Controller
     {
         $data = $this->validated($request);
         $data['slug'] = $data['slug'] ?: Str::slug($data['title_en']);
+        $data['image_url'] = $this->handleImageUpload($request, $data['image_url'] ?? $vacancy->image_url);
 
         $vacancy->update($data);
 
@@ -68,6 +71,10 @@ class VacancyController extends Controller
 
     public function destroy(Vacancy $vacancy): RedirectResponse
     {
+        if ($vacancy->image_url && Storage::disk('public')->exists($this->relativePath($vacancy->image_url))) {
+            Storage::disk('public')->delete($this->relativePath($vacancy->image_url));
+        }
+
         $vacancy->delete();
 
         return redirect()->route('admin.vacancies.index')->with('status', 'Vacancy deleted.');
@@ -88,6 +95,24 @@ class VacancyController extends Controller
             'requirements_en' => ['nullable', 'string'],
             'requirements_am' => ['nullable', 'string'],
             'requirements_aa' => ['nullable', 'string'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'image_url' => ['nullable', 'string'],
         ]) + ['published' => $request->boolean('published')];
+    }
+
+    private function handleImageUpload(Request $request, ?string $fallback): ?string
+    {
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('vacancies', 'public');
+
+            return Storage::url($path);
+        }
+
+        return $fallback;
+    }
+
+    private function relativePath(string $url): string
+    {
+        return str_replace('/storage/', '', parse_url($url, PHP_URL_PATH) ?? '');
     }
 }

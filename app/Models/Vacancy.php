@@ -23,6 +23,7 @@ class Vacancy extends Model
         'requirements_en',
         'requirements_am',
         'requirements_aa',
+        'image_url',
     ];
 
     protected function casts(): array
