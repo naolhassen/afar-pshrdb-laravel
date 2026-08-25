@@ -359,6 +359,66 @@ body {
     animation: shimmer 1.4s ease-in-out infinite;
   }
 
+  /* Portal page hero: quiet ledger band with woven diagonal texture */
+  .page-hero-weave {
+    background-image:
+      repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 14px),
+      repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0 1px, transparent 1px 22px),
+      radial-gradient(circle at 85% 15%, rgba(50, 139, 252, 0.22), transparent 45%);
+  }
+
+  /* Signature: regional tricolor keyline (blue / green / flame) */
+  .tricolor-rule {
+    display: flex;
+    width: 6.5rem;
+    height: 4px;
+    border-radius: 9999px;
+    overflow: hidden;
+    background: #16bd5c;
+  }
+
+  .tricolor-rule::before,
+  .tricolor-rule::after {
+    content: '';
+    display: block;
+    height: 100%;
+  }
+
+  .tricolor-rule::before {
+    flex: 2;
+    background: #328bfc;
+  }
+
+  .tricolor-rule::after {
+    flex: 1;
+    background: #e6362e;
+  }
+
+  /* Staggered card reveal for list pages */
+  .reveal-item {
+    animation: slide-up 0.55s ease-out both;
+  }
+
+  .reveal-item:nth-child(2) { animation-delay: 0.06s; }
+  .reveal-item:nth-child(3) { animation-delay: 0.12s; }
+  .reveal-item:nth-child(4) { animation-delay: 0.18s; }
+  .reveal-item:nth-child(5) { animation-delay: 0.24s; }
+  .reveal-item:nth-child(6) { animation-delay: 0.3s; }
+  .reveal-item:nth-child(n+7) { animation-delay: 0.36s; }
+
+  /* Date block for date-driven listings (announcements, tenders) */
+  .date-block {
+    @apply flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl bg-brand-50 text-brand-800 ring-1 ring-brand-100;
+  }
+
+  .date-block .date-day {
+    @apply text-xl font-extrabold leading-none;
+  }
+
+  .date-block .date-month {
+    @apply mt-1 text-[10px] font-bold uppercase tracking-wider text-brand-500;
+  }
+
   .glass-button {
     @apply relative overflow-hidden rounded-xl border border-white/40 bg-white/20 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur-md transition;
     box-shadow: 0 8px 24px -12px rgba(15, 23, 42, 0.5);
@@ -454,5 +514,18 @@ body {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item,
+  .animate-fade-in,
+  .animate-slide-up,
+  .animate-scale-in {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
   }
 }

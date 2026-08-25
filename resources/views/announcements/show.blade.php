@@ -3,36 +3,38 @@
 @section('title', $item->localized('title', $locale))
 
 @section('content')
-    <section class="relative overflow-hidden bg-gradient-to-r from-brand-950 to-accent-950 py-16 text-white">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.08),transparent_40%)]"></div>
-        <div class="relative mx-auto max-w-4xl px-4">
-            <a href="/{{ $locale }}/announcements/{{ $typeSlug }}" class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-brand-100 backdrop-blur-sm transition hover:bg-white/20">
-                <i data-lucide="arrow-left" class="h-4 w-4"></i> Back to announcements
-            </a>
-            <div class="mt-6 flex flex-wrap items-center gap-3 text-sm">
-                <span class="inline-flex items-center gap-1.5 rounded-full bg-accent-600 px-3 py-1 text-xs font-semibold capitalize">
+    <article class="mx-auto max-w-4xl px-4 py-12 sm:py-14 animate-fade-in">
+        <a href="/{{ $locale }}/announcements/{{ $typeSlug }}"
+           class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-brand-700 shadow-sm ring-1 ring-slate-200 transition hover:-translate-x-0.5 hover:bg-brand-50 hover:text-brand-900">
+            <i data-lucide="arrow-left" class="h-4 w-4"></i>
+            {{ $typeSlug === 'tenders' ? __('site.nav.tenders') : __('site.nav.other_announcements') }}
+        </a>
+
+        <header class="mt-8">
+            <div class="flex flex-wrap items-center gap-3 text-sm">
+                <span class="inline-flex items-center gap-1.5 rounded-full bg-accent-50 px-3 py-1 text-xs font-bold capitalize text-accent-700 ring-1 ring-accent-200">
                     <i data-lucide="{{ $typeSlug === 'tenders' ? 'file-text' : 'megaphone' }}" class="h-3 w-3"></i>
                     {{ $typeSlug }}
                 </span>
-                <span class="flex items-center gap-1.5 text-brand-200">
+                <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500">
                     <i data-lucide="calendar" class="h-3.5 w-3.5"></i>
                     {{ $item->date }}
                 </span>
             </div>
-            <h1 class="mt-5 text-balance text-3xl font-extrabold leading-tight sm:text-4xl">
+            <h1 class="mt-4 text-balance text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl">
                 {{ $item->localized('title', $locale) }}
             </h1>
-        </div>
-    </section>
+            <div class="tricolor-rule mt-5" aria-hidden="true"></div>
+        </header>
 
-    <article class="mx-auto max-w-4xl px-4 py-14 animate-fade-in">
-        <div class="rounded-[28px] border border-slate-200 bg-white p-8 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.35)]">
+        <div class="mt-8 overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_18px_42px_-30px_rgba(15,23,42,0.35)]">
             @if ($item->image_url)
-                <div class="mb-8 overflow-hidden rounded-2xl shadow-sm">
-                    <img src="{{ $item->image_url }}" alt="{{ $item->localized('title', $locale) }}" class="h-auto w-full object-cover">
-                </div>
+                <img src="{{ $item->image_url }}"
+                     alt="{{ $item->localized('title', $locale) }}"
+                     class="max-h-[480px] w-full object-cover"
+                     onerror="this.onerror=null; this.remove();">
             @endif
-            <div class="space-y-6 leading-relaxed text-slate-700">
+            <div class="space-y-6 p-8 text-[15px] leading-relaxed text-slate-700 sm:p-10">
                 @foreach ($item->localizedParagraphs('body', $locale) as $para)
                     <p>{{ $para }}</p>
                 @endforeach

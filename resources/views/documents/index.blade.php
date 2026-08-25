@@ -3,26 +3,26 @@
 @section('title', __('site.nav.documents'))
 
 @section('content')
-    <main class="min-h-screen bg-slate-50 py-16">
-        <div class="mx-auto max-w-5xl px-4 animate-fade-in">
-            <a href="/" class="mb-6 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-brand-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-brand-50 hover:text-brand-900">
-                <i data-lucide="arrow-left" class="h-4 w-4"></i> {{ __('site.common.back_home') }}
-            </a>
+    @include('partials.page-hero', [
+        'eyebrow' => __('site.nav.documents'),
+        'title' => __('site.nav.documents'),
+        'icon' => 'files',
+    ])
 
-            <div class="flex items-center gap-3">
-                <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-sm">
-                    <i data-lucide="files" class="h-6 w-6"></i>
-                </span>
-                <h1 class="text-3xl font-extrabold text-brand-900 sm:text-4xl">{{ __('site.nav.documents') }}</h1>
-            </div>
-
+    <main class="min-h-screen bg-slate-50 py-14 sm:py-16">
+        <div class="mx-auto max-w-5xl px-4">
             @if ($documents->isEmpty())
-                <p class="mt-8 text-lg text-slate-600">{{ __('site.common.coming_soon') }}</p>
+                <div class="flex flex-col items-center justify-center rounded-[28px] border border-dashed border-slate-300 bg-white/60 py-20 text-slate-500">
+                    <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+                        <i data-lucide="files" class="h-7 w-7"></i>
+                    </span>
+                    <p class="mt-4 text-lg font-semibold text-slate-600">{{ __('site.common.coming_soon') }}</p>
+                </div>
             @endif
 
-            <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach ($documents as $document)
-                    <div class="group relative rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-1 hover:shadow-lg">
+                    <div class="reveal-item group relative flex h-full flex-col rounded-[24px] border border-slate-200 bg-white p-6 shadow-sm ring-1 ring-slate-100 transition hover:-translate-y-1 hover:shadow-lg hover:ring-brand-200">
                         <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 transition group-hover:bg-indigo-100 group-hover:text-indigo-700">
                             <i data-lucide="file-text" class="h-6 w-6"></i>
                         </div>

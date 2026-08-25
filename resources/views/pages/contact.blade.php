@@ -3,18 +3,14 @@
 @section('title', __('site.contact.title'))
 
 @section('content')
-    <section class="relative overflow-hidden bg-gradient-to-r from-brand-950 to-accent-950 py-16 text-white">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.08),transparent_40%)]"></div>
-        <div class="relative mx-auto max-w-7xl px-4">
-            <div class="flex items-center gap-3">
-                <i data-lucide="message-circle" class="h-10 w-10 text-accent-400"></i>
-                <h1 class="text-4xl font-extrabold">{{ __('site.contact.title') }}</h1>
-            </div>
-            <p class="mt-4 text-brand-100">{{ __('site.contact.subtitle') }}</p>
-        </div>
-    </section>
+    @include('partials.page-hero', [
+        'eyebrow' => __('site.nav.contact'),
+        'title' => __('site.contact.title'),
+        'subtitle' => __('site.contact.subtitle'),
+        'icon' => 'message-circle',
+    ])
 
-    <section class="mx-auto max-w-7xl px-4 py-16 animate-fade-in">
+    <section class="mx-auto max-w-7xl px-4 py-14 sm:py-16 animate-fade-in">
         <div class="grid gap-12 lg:grid-cols-5">
             <div class="lg:col-span-2">
                 <div class="space-y-5">
