@@ -80,7 +80,7 @@
     <div class="border-t border-white/10">
         <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-6 text-xs text-brand-300 sm:flex-row sm:px-6 lg:px-8">
             <span>&copy; {{ $year }} {{ __('site.footer.government') }}. {{ __('site.footer.rights') }}</span>
-            <span>{{ __('site.site_name_short') }}</span>
+            <span>Developed by Abdo Hantuta</span>
         </div>
     </div>
 </footer>
