@@ -23,10 +23,10 @@
                         {{ __('site.contact.title') }} <i data-lucide="arrow-right" class="h-4 w-4"></i>
                     </a>
                 </div>
-                <div class="relative mx-auto w-full max-w-md lg:max-w-full">
-                    <div class="absolute -inset-4 rounded-[32px] bg-gradient-to-br from-brand-500/20 to-accent-500/20 blur-2xl"></div>
-                    <div class="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-sm sm:p-8">
-                        <img src="/logo.png" alt="{{ __('site.site_name_short') }} emblem" class="h-auto w-full rounded-2xl object-contain">
+                <div class="relative mx-auto w-full max-w-sm lg:max-w-md">
+                    <div class="absolute -inset-4 rounded-full bg-gradient-to-br from-brand-500/20 to-accent-500/20 blur-2xl"></div>
+                    <div class="relative flex aspect-square items-center justify-center overflow-hidden rounded-full border-4 border-white/10 bg-white p-8 shadow-2xl sm:p-10">
+                        <img src="/logo.png" alt="{{ __('site.site_name_short') }} emblem" class="h-auto w-full rounded-full object-contain">
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                     @php
                         $activityIcons = ['users', 'graduation-cap', 'file-warning', 'clipboard-check', 'settings', 'scale', 'chart-line'];
                     @endphp
-                    <ul class="grid gap-5 sm:grid-cols-2">
+                    <ul class="grid gap-5">
                         @foreach (__('site.about.mandates') as $mandate)
                             <li class="flex items-start gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-5 transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md">
                                 <span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
@@ -69,16 +69,16 @@
                             {{ __('site.about.structure_title') }}
                         </h2>
                     </div>
-                    <div class="grid gap-4 sm:grid-cols-2">
+                    <ul class="grid gap-4">
                         @foreach (__('site.about.directorates') as $directorate)
-                            <div class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md">
+                            <li class="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md">
                                 <span class="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-brand-500 shadow-sm">
                                     <i data-lucide="building-2" class="h-4 w-4"></i>
                                 </span>
                                 <span class="text-sm font-medium leading-relaxed text-slate-700">{{ $directorate }}</span>
-                            </div>
+                            </li>
                         @endforeach
-                    </div>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -92,14 +92,14 @@
                 </h2>
             </div>
             <div class="mt-14 grid gap-8 lg:grid-cols-3">
-                <div class="relative overflow-hidden rounded-[28px] bg-brand-900 p-8 text-white shadow-[0_18px_36px_-20px_rgba(30,64,175,0.45)]">
+                <div class="relative overflow-hidden rounded-[28px] bg-brand-900 p-8 text-white shadow-[0_18px_36px_-20px_rgba(30,64,175,0.45)] transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
                     <div class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5"></div>
                     <i data-lucide="eye" class="h-10 w-10 text-blue-200"></i>
                     <h3 class="mt-6 text-2xl font-bold">{{ __('site.vision.vision_title') }}</h3>
                     <p class="mt-4 text-balance leading-relaxed text-brand-100">{{ __('site.vision.vision_body') }}</p>
                 </div>
 
-                <div class="relative overflow-hidden rounded-[28px] bg-accent-800 p-8 text-white shadow-[0_18px_36px_-20px_rgba(6,95,70,0.45)]">
+                <div class="relative overflow-hidden rounded-[28px] bg-accent-800 p-8 text-white shadow-[0_18px_36px_-20px_rgba(6,95,70,0.45)] transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
                     <div class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5"></div>
                     <i data-lucide="compass" class="h-10 w-10 text-emerald-200"></i>
                     <h3 class="mt-6 text-2xl font-bold">{{ __('site.vision.mission_title') }}</h3>
@@ -113,7 +113,7 @@
                     </div>
                 </div>
 
-                <div class="relative overflow-hidden rounded-[28px] bg-slate-950 p-8 text-white shadow-[0_18px_36px_-20px_rgba(15,23,42,0.55)]">
+                <div class="relative overflow-hidden rounded-[28px] bg-slate-950 p-8 text-white shadow-[0_18px_36px_-20px_rgba(15,23,42,0.55)] transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
                     <div class="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5"></div>
                     <i data-lucide="heart" class="h-10 w-10 text-rose-200"></i>
                     <h3 class="mt-6 text-2xl font-bold">{{ __('site.vision.values_title') }}</h3>
