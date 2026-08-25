@@ -130,6 +130,8 @@ jobs:
             mkdir -p storage/app/public
             mkdir -p storage/logs
             chmod -R 775 bootstrap/cache storage
+            rm -rf public/storage
+            php artisan storage:link
             php -v
             php artisan migrate --force
             php artisan db:seed --force
