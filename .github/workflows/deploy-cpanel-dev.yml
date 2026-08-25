@@ -78,8 +78,9 @@ jobs:
           envs: DEBUGINFOD_URLS
           script: |
             set +e
-            pkill -9 -f debuginfod 2>/dev/null || true
-            pgrep -af debuginfod 2>/dev/null | head -n 5 || true
+            # Use a bracketed pattern so pkill/pgrep do not match the shell's own command line
+            pkill -9 -f '[d]ebuginfod' 2>/dev/null || true
+            pgrep -af '[d]ebuginfod' 2>/dev/null | head -n 5 || true
 
       - name: Upload deploy zip to cPanel
         uses: appleboy/scp-action@v0.1.7
