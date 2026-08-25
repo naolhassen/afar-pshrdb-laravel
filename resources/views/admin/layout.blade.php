@@ -64,9 +64,9 @@
                         </span>
                         <div class="flex items-center gap-2.5 pl-2">
                             <span class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-600 to-brand-800 text-white text-sm font-bold shadow-md ring-2 ring-white/40">
-                                {{ strtoupper(substr(auth('admin')->user()?->name ?? 'Admin', 0, 1)) }}
+                                {{ strtoupper(substr(auth()->user()?->name ?? 'Admin', 0, 1)) }}
                             </span>
-                            <span class="hidden text-sm font-semibold text-slate-700 lg:block">{{ auth('admin')->user()?->name ?? 'Admin' }}</span>
+                            <span class="hidden text-sm font-semibold text-slate-700 lg:block">{{ auth()->user()?->name ?? 'Admin' }}</span>
                         </div>
                     </div>
                 </div>
